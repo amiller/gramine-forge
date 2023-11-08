@@ -11,9 +11,9 @@ library AttestForge {
     
     Vm constant vm2 = Vm(0x7109709ECfa91a80626fF3989D68f67F5b1DD12D);
 
-    function attest(string memory tag) view internal returns (string memory) {
+    function attest(string memory tag) view internal returns (bytes memory) {
 	bytes memory res = forgeIt(string(iToHex(abi.encodePacked(msg.sender))), tag);
-	return string(res);
+	return res;
     }
 
     function forgeIt(string memory addr, string memory tag) internal view returns (bytes memory) {
@@ -21,12 +21,12 @@ library AttestForge {
 	bytes memory b = abi.encodePacked(h);
 	strings.slice memory s = addr.toSlice();
 	s = s.concat("000000000000000000000000".toSlice()).toSlice();
-	string memory dataHex = s.concat(iToHex(b).toSlice());
+	string memory userReportData = s.concat(iToHex(b).toSlice());
 
         string[] memory inputs = new string[](3);
-        inputs[0] = "bash";
-        inputs[1] = "ffi-fetchquote.sh";
-        inputs[2] = dataHex;
+        inputs[0] = "python";
+        inputs[1] = "ffi-fetchquote.py";
+        inputs[2] = userReportData;
 
         bytes memory res = vm2.ffi(inputs);
         return res;

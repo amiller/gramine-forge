@@ -44,6 +44,6 @@ contract Test is Script {
     function setUp() public {}
 
     function run() public {
-	console2.log(AttestForge.attest("run"));
+	console2.logBytes(AttestForge.attest("run"));
     }
 }

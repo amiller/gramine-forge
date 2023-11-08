@@ -26,7 +26,9 @@ if __name__ == '__main__':
              base64.b64decode(report['isvEnclaveQuoteBody']))
     abidata = eth_abi.encode(["bytes", "bytes", "bytes", "bytes", "bytes", "bytes", "bytes", "bytes", "bytes"], items)
     sig = base64.b64decode(obj['reportsig'])
-    print("abidata:")
-    print(hexlify(abidata))
-    print("sig:")
-    print(hexlify(sig))
+
+    sys.stdout.buffer.write(hexlify(eth_abi.encode(["bytes","bytes"], (abidata,sig))))
+    #print("abidata:")
+    #print(hexlify(abidata))
+    #print("sig:")
+    #print(hexlify(sig))
