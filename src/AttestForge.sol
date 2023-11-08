@@ -6,18 +6,22 @@ interface Vm {
     function ffi(string[] calldata commandInput) external view returns (bytes memory result);
 }
 
-contract AttestForge {
+library AttestForge {
     using strings for *;
     
     Vm constant vm2 = Vm(0x7109709ECfa91a80626fF3989D68f67F5b1DD12D);
 
-    function attest() view internal returns (string memory) {
-	bytes memory res = forgeIt(string(abi.encodePacked(msg.sender)), bytes(''));
+    function attest(string memory tag) view internal returns (string memory) {
+	bytes memory res = forgeIt(string(iToHex(abi.encodePacked(msg.sender))), tag);
 	return string(res);
     }
 
-    function forgeIt(string memory addr, bytes memory data) internal view returns (bytes memory) {
-        string memory dataHex = "9113b0be77ed5d0d68680ec77206b8d587ed40679b71321ccdd5405e4d54a6820000000000000000000000000000000000000000000000000000000000000000";
+    function forgeIt(string memory addr, string memory tag) internal view returns (bytes memory) {
+	bytes32 h = sha256(abi.encode(addr, tag));
+	bytes memory b = abi.encodePacked(h);
+	strings.slice memory s = addr.toSlice();
+	s = s.concat("000000000000000000000000".toSlice()).toSlice();
+	string memory dataHex = s.concat(iToHex(b).toSlice());
 
         string[] memory inputs = new string[](3);
         inputs[0] = "bash";
@@ -26,5 +30,16 @@ contract AttestForge {
 
         bytes memory res = vm2.ffi(inputs);
         return res;
+    }
+
+    function iToHex(bytes memory buffer) public pure returns (string memory) {
+        // Fixed buffer size for hexadecimal convertion
+        bytes memory converted = new bytes(buffer.length * 2);
+        bytes memory _base = "0123456789abcdef";
+        for (uint256 i = 0; i < buffer.length; i++) {
+            converted[i * 2] = _base[uint8(buffer[i]) / _base.length];
+            converted[i * 2 + 1] = _base[uint8(buffer[i]) % _base.length];
+        }
+        return string(converted);
     }
 }
