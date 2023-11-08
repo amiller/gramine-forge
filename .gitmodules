@@ -4,3 +4,6 @@
 [submodule "lib/solidity-stringutils"]
 	path = lib/solidity-stringutils
 	url = https://github.com/Arachnid/solidity-stringutils
+[submodule "lib/rave"]
+	path = lib/rave
+	url = https://github.com/PufferFinance/rave
