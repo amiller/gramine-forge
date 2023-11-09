@@ -18,7 +18,7 @@ library AttestForge {
     	string memory userReportData = _userReportData(msg.sender, tag);
         string[] memory inputs = new string[](3);
         inputs[0] = "python";
-        inputs[1] = "ffi-fetchquote-epid.py";
+        inputs[1] = "script/ffi-fetchquote-epid.py";
         inputs[2] = userReportData;
         bytes memory res = vm2.ffi(inputs);
 	return res;
@@ -28,7 +28,7 @@ library AttestForge {
     	string memory userReportData = _userReportData(msg.sender, tag);
         string[] memory inputs = new string[](3);
         inputs[0] = "python";
-        inputs[1] = "ffi-fetchquote-dcap.py";
+        inputs[1] = "script/ffi-fetchquote-dcap.py";
         inputs[2] = userReportData;
         bytes memory res = vm2.ffi(inputs);
 	return res;
