@@ -6,17 +6,26 @@ import { BytesUtils } from "ens-contracts/dnssec-oracle/BytesUtils.sol";
 import "forge-std/console2.sol";
 import "forge-std/Test.sol";
 
-import { MyRAVE } from "src/MyRave.sol";
+import { AttestationDemo } from "src/MyRave.sol";
 import { AttestForge } from "src/AttestForge.sol";
 
-contract AttestForgeTest is Test, MyRAVE {
+contract HighLevelAttestationTest is Test, AttestationDemo {
     using strings for *;
     using BytesUtils for *;
 
     function testRemoteAttestationHighlevel() public view {
-    	bytes memory attestation = AttestForge.attest("mytag");
+    	bytes memory attestation = AttestForge.attest_epid("mytag");
+
 	// console2.logBytes(attestation);
 
-	verify(address(this), "mytag", attestation);
+	verify_epid(address(this), "mytag", attestation);
+    }
+
+    function testRemoteAttestationHighlevelDcap() public view {
+    	bytes memory attestation = AttestForge.attest_dcap("mytag");
+
+	console2.logBytes(attestation);
+
+	//verify_dcap(address(this), "mytag", attestation);
     }
 }

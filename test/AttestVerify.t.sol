@@ -6,9 +6,9 @@ import { BytesUtils } from "ens-contracts/dnssec-oracle/BytesUtils.sol";
 import "forge-std/console2.sol";
 import "forge-std/Test.sol";
 
-import { MyRAVE } from "src/MyRave.sol";
+import { AttestationDemo } from "src/MyRave.sol";
 
-contract AttestVerify is Test, MyRAVE {
+contract AttestVerify is Test, AttestationDemo {
     using strings for *;
     using BytesUtils for *;
     
@@ -21,7 +21,7 @@ contract AttestVerify is Test, MyRAVE {
     bytes constant sig = hex"08a18df00f464c10a28ce7ad2cb3f0766d6e78f3a3e7fed9adeb670010b97788be026bbe8c43b7b2a953104581a23a7890a9de650af67057087765f6cd0caba3a08b995b6a130319aa3186994eb1b4cc67cbc3227682ee18206303618b011069bd318c46f16ec2f8e7b7d2b0dfe8c2b3889ad83a0c1ef27236b03f71379f8313814586d63b92ed1664072e4a2c72ef6c74773dc201d007e4417e9def16e1e9ed052f848c39a2254cc13af0cfd78ff0963c418aa6643be954c8fb01d903852860a482bfed3f0ab281fa465873b15ba739a5ee77e58ce84c9f248a64292db3d50700f7440a1e2fed5f392f120dd5d4cf7f28728d4944688cd70835a2de595195dc";
 
     function testRemoteAttestationDirect() public view {
-        (MyRAVE.Values2 memory reportValues, bytes memory reportBytes) = _buildReportBytes2(report);
+        (Values2 memory reportValues, bytes memory reportBytes) = _buildReportBytes2(report);
         bytes memory quoteBody = reportValues.isvEnclaveQuoteBody;
         bytes32 mre = quoteBody.readBytes32(MRENCLAVE_OFFSET);
         bytes32 mrs = quoteBody.readBytes32(MRSIGNER_OFFSET);
