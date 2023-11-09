@@ -11,24 +11,5 @@ if __name__ == '__main__':
         sys.exit(1)
     msg = sys.argv[1]
     assert len(bytes.fromhex(msg)) == 64
-    obj = urllib.request.urlopen(f"http://dummyattest.ln.soc1024.com/{msg}").read()
-    obj = json.loads(obj)    
-
-    report = obj['report']
-    items = (report['id'].encode(),
-             report['timestamp'].encode(),
-             str(report['version']).encode(),
-             report['epidPseudonym'].encode(),
-             report['advisoryURL'].encode(),
-             json.dumps(report['advisoryIDs']).replace(' ','').encode(),
-             report['isvEnclaveQuoteStatus'].encode(),
-             report['platformInfoBlob'].encode(),
-             base64.b64decode(report['isvEnclaveQuoteBody']))
-    abidata = eth_abi.encode(["bytes", "bytes", "bytes", "bytes", "bytes", "bytes", "bytes", "bytes", "bytes"], items)
-    sig = base64.b64decode(obj['reportsig'])
-
-    sys.stdout.buffer.write(hexlify(eth_abi.encode(["bytes","bytes"], (abidata,sig))))
-    #print("abidata:")
-    #print(hexlify(abidata))
-    #print("sig:")
-    #print(hexlify(sig))
+    attestation = urllib.request.urlopen(f"http://dummyattest.ln.soc1024.com/forge-epid/{msg}").read()
+    sys.stdout.buffer.write(attestation)

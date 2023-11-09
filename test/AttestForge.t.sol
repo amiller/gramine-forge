@@ -14,15 +14,16 @@ contract HighLevelAttestationTest is Test, AttestationDemo {
     using BytesUtils for *;
 
     function testRemoteAttestationHighlevel() public view {
-    	bytes memory attestation = AttestForge.attest_epid("mytag");
-
-	// console2.logBytes(attestation);
-
-	verify_epid(address(this), "mytag", attestation);
+	string memory userReportData = reportDataHelper(address(this), "mytag");
+	console.log(userReportData);
+	console.log(geturl(address(this), "mytag"));
+    	bytes memory attestation = AttestForge.attest_epid(userReportData);
+	verify_epid(userReportData, attestation);
     }
 
     function testRemoteAttestationHighlevelDcap() public view {
-    	bytes memory attestation = AttestForge.attest_dcap("mytag");
+	string memory userReportData = reportDataHelper(address(this), "mytag");	
+    	bytes memory attestation = AttestForge.attest_dcap(userReportData);
 
 	console2.logBytes(attestation);
 
