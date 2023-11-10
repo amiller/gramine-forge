@@ -39,13 +39,15 @@ contract AttestationDemo is JSONBuilder2, RAVE {
         string memory advisoryIDs,
         string memory isvEnclaveQuoteStatus,
 	string memory platformInfoBlob,
-        string memory isvEnclaveQuoteBody) {
+        string memory isvEnclaveQuoteBody,
+	string memory userReportData) {
 	// Decode the outer layer, report and sig separately
 	(bytes memory report, bytes memory sig) = abi.decode(attestation, (bytes, bytes));
 
 	// Parse to RAVE structure and regenerate the canonical JSON
         (Values2 memory reportValues, bytes memory reportBytes) = _buildReportBytes2(report);
-	
+
+        userReportData = iToHex(reportValues.isvEnclaveQuoteBody.substring(PAYLOAD_OFFSET, PAYLOAD_SIZE));
 	id = string(reportValues.id);
 	timestamp = string(reportValues.timestamp);
 	version = string(reportValues.version);
