@@ -7,3 +7,6 @@
 [submodule "lib/rave"]
 	path = lib/rave
 	url = https://github.com/PufferFinance/rave
+[submodule "lib/automata-dcap-v3-attestation"]
+	path = lib/automata-dcap-v3-attestation
+	url = https://github.com/amiller/automata-dcap-v3-attestation
