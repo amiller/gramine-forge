@@ -10,3 +10,6 @@
 [submodule "lib/automata-dcap-v3-attestation"]
 	path = lib/automata-dcap-v3-attestation
 	url = https://github.com/amiller/automata-dcap-v3-attestation
+[submodule "lib/solady"]
+	path = lib/solady
+	url = https://github.com/vectorized/solady
