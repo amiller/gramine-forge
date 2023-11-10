@@ -51,6 +51,6 @@ contract AttestVerify is Test, AttestationDemo {
             revert BadReportSignature();
         }
 
-	//this.verifyRemoteAttestation(reportBytes, sig, signingMod, signingExp, mre, mrs);
+	this.verifyRemoteAttestation(reportBytes, sig, signingMod, signingExp, mre, mrs);
     }
 }
